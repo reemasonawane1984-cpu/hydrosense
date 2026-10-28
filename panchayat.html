@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>HydroSense - Panchayat Dashboard</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2fbfd;
+        }
+
+        .header {
+            background: #087f8c;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .back {
+            background: white;
+            color: #087f8c;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        .welcome h2 {
+            color: #087f8c;
+        }
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+            repeat(auto-fit, minmax(200px, 1fr));
+
+            gap: 20px;
+
+            margin-top: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        .icon {
+            font-size: 35px;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #087f8c;
+        }
+
+        .card p {
+            color: #666;
+        }
+
+        .section {
+            background: white;
+
+            margin-top: 25px;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+
+            overflow-x: auto;
+        }
+
+        .section h2 {
+            color: #087f8c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #087f8c;
+            color: white;
+        }
+
+        .good {
+            color: green;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #b06b00;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>💧 HydroSense</h1>
+
+    <button
+        class="back"
+        onclick="goBack()">
+
+        ← User Dashboard
+
+    </button>
+
+</div>
+
+
+<div class="container">
+
+
+    <div class="welcome">
+
+        <h2>🏛️ Panchayat Dashboard</h2>
+
+        <p>
+            Community Water Quality Monitoring
+            and Reporting Overview
+        </p>
+
+    </div>
+
+
+    <!-- Summary Cards -->
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <div class="icon">
+                👥
+            </div>
+
+            <div
+                class="number"
+                id="userCount">
+
+                0
+
+            </div>
+
+            <p>
+                Registered User
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                🧪
+            </div>
+
+            <div
+                class="number"
+                id="testCount">
+
+                0
+
+            </div>
+
+            <p>
+                Water Tests
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                🚰
+            </div>
+
+            <div
+                class="number"
+                id="sourceCount">
+
+                0
+
+            </div>
+
+            <p>
+                Water Sources
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                ⚙️
+            </div>
+
+            <div
+                class="number"
+                id="serviceCount">
+
+                0
+
+            </div>
+
+            <p>
+                RO Service Records
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                📢
+            </div>
+
+            <div
+                class="number"
+                id="complaintCount">
+
+                0
+
+            </div>
+
+            <p>
+                Complaints
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- Recent Water Tests -->
+
+    <div class="section">
+
+        <h2>🧪 Recent Water Tests</h2>
+
+        <div id="testTable">
+
+        </div>
+
+    </div>
+
+
+    <!-- Complaints -->
+
+    <div class="section">
+
+        <h2>📢 Community Complaints</h2>
+
+        <div id="complaintTable">
+
+        </div>
+
+    </div>
+
+
+    <!-- Water Sources -->
+
+    <div class="section">
+
+        <h2>🚰 Water Sources</h2>
+
+        <div id="sourceTable">
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+// Check Panchayat login
+
+if (
+    localStorage.getItem("panchayatLoggedIn")
+    !== "true"
+) {
+
+    window.location.href =
+        "panchayat-login.html";
+
+}
+
+
+function loadDashboard() {
+
+
+    // Get user
+
+    let user =
+        JSON.parse(
+            localStorage.getItem(
+                "hydrosenseUser"
+            )
+        );
+
+
+    if (user) {
+
+        document.getElementById(
+            "userCount"
+        ).innerHTML = "1";
+
+    }
+
+
+    // Get water tests
+
+    let tests =
+        JSON.parse(
+            localStorage.getItem(
+                "waterTests"
+            )
+        ) || [];
+
+
+    document.getElementById(
+        "testCount"
+    ).innerHTML =
+        tests.length;
+
+
+    // Get water sources
+
+    let sources =
+        JSON.parse(
+            localStorage.getItem(
+                "waterIntake"
+            )
+        ) || [];
+
+
+    document.getElementById(
+        "sourceCount"
+    ).innerHTML =
+        sources.length;
+
+
+    // Get RO services
+
+    let services =
+        JSON.parse(
+            localStorage.getItem(
+                "roServices"
+            )
+        ) || [];
+
+
+    document.getElementById(
+        "serviceCount"
+    ).innerHTML =
+        services.length;
+
+
+    // Get complaints
+
+    let complaints =
+        JSON.parse(
+            localStorage.getItem(
+                "complaints"
+            )
+        ) || [];
+
+
+    document.getElementById(
+        "complaintCount"
+    ).innerHTML =
+        complaints.length;
+
+
+    displayTests(tests);
+
+    displayComplaints(complaints);
+
+    displaySources(sources);
+
+}
+
+
+// Display water tests
+
+function displayTests(tests) {
+
+
+    let container =
+        document.getElementById(
+            "testTable"
+        );
+
+
+    if (tests.length === 0) {
+
+        container.innerHTML =
+            "<div class='empty'>" +
+            "No water tests recorded." +
+            "</div>";
+
+        return;
+
+    }
+
+
+    let html =
+        "<table>" +
+
+        "<tr>" +
+        "<th>Date</th>" +
+        "<th>pH</th>" +
+        "<th>TDS</th>" +
+        "<th>Turbidity</th>" +
+        "<th>Temperature</th>" +
+        "<th>Status</th>" +
+        "</tr>";
+
+
+    let recentTests =
+        tests.slice().reverse().slice(0, 5);
+
+
+    recentTests.forEach(function(test) {
+
+
+        let statusClass =
+            test.status === "Good"
+            ? "good"
+            : "warning";
+
+
+        html +=
+
+            "<tr>" +
+
+            "<td>" +
+            test.date +
+            "</td>" +
+
+            "<td>" +
+            test.ph +
+            "</td>" +
+
+            "<td>" +
+            test.tds +
+            " mg/L</td>" +
+
+            "<td>" +
+            test.turbidity +
+            " NTU</td>" +
+
+            "<td>" +
+            test.temperature +
+            " °C</td>" +
+
+            "<td class='" +
+            statusClass +
+            "'>" +
+            test.status +
+            "</td>" +
+
+            "</tr>";
+
+    });
+
+
+    html += "</table>";
+
+
+    container.innerHTML = html;
+
+}
+
+
+// Display complaints
+
+function displayComplaints(complaints) {
+
+
+    let container =
+        document.getElementById(
+            "complaintTable"
+        );
+
+
+    if (complaints.length === 0) {
+
+        container.innerHTML =
+            "<div class='empty'>" +
+            "No complaints submitted." +
+            "</div>";
+
+        return;
+
+    }
+
+
+    let html =
+
+        "<table>" +
+
+        "<tr>" +
+
+        "<th>Problem Type</th>" +
+
+        "<th>Location</th>" +
+
+        "<th>Date</th>" +
+
+        "<th>Priority</th>" +
+
+        "<th>Status</th>" +
+
+        "</tr>";
+
+
+    let recentComplaints =
+        complaints
+        .slice()
+        .reverse()
+        .slice(0, 5);
+
+
+    recentComplaints.forEach(function(complaint) {
+
+
+        html +=
+
+            "<tr>" +
+
+            "<td>" +
+            complaint.problemType +
+            "</td>" +
+
+            "<td>" +
+            complaint.location +
+            "</td>" +
+
+            "<td>" +
+            complaint.date +
+            "</td>" +
+
+            "<td>" +
+            complaint.priority +
+            "</td>" +
+
+            "<td>" +
+            complaint.status +
+            "</td>" +
+
+            "</tr>";
+
+    });
+
+
+    html += "</table>";
+
+
+    container.innerHTML = html;
+
+}
+
+
+// Display water sources
+
+function displaySources(sources) {
+
+
+    let container =
+        document.getElementById(
+            "sourceTable"
+        );
+
+
+    if (sources.length === 0) {
+
+        container.innerHTML =
+            "<div class='empty'>" +
+            "No water sources recorded." +
+            "</div>";
+
+        return;
+
+    }
+
+
+    let html =
+
+        "<table>" +
+
+        "<tr>" +
+
+        "<th>Source Name</th>" +
+
+        "<th>Source Type</th>" +
+
+        "<th>Location</th>" +
+
+        "<th>Quantity</th>" +
+
+        "<th>Date</th>" +
+
+        "</tr>";
+
+
+    let recentSources =
+        sources
+        .slice()
+        .reverse()
+        .slice(0, 5);
+
+
+    recentSources.forEach(function(source) {
+
+
+        html +=
+
+            "<tr>" +
+
+            "<td>" +
+            source.sourceName +
+            "</td>" +
+
+            "<td>" +
+            source.sourceType +
+            "</td>" +
+
+            "<td>" +
+            source.location +
+            "</td>" +
+
+            "<td>" +
+            source.quantity +
+            " L/day</td>" +
+
+            "<td>" +
+            source.date +
+            "</td>" +
+
+            "</tr>";
+
+    });
+
+
+    html += "</table>";
+
+
+    container.innerHTML = html;
+
+}
+
+
+// Back button
+
+function goBack() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+// Load dashboard
+
+loadDashboard();
+
+
+</script>
+
+
+</body>
+
+</html>

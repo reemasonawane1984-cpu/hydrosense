@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>HydroSense - RO Service</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2fbfd;
+        }
+
+        .header {
+            background: #087f8c;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .back {
+            background: white;
+            color: #087f8c;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        h2 {
+            color: #087f8c;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 95%;
+            padding: 11px;
+
+            border: 1px solid #ccc;
+            border-radius: 7px;
+
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .save-button {
+            width: 100%;
+            padding: 13px;
+
+            background: #087f8c;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .save-button:hover {
+            background: #05636d;
+        }
+
+        #message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .success {
+            background: #e4f7e8;
+            color: #176b2c;
+        }
+
+        .error {
+            background: #ffe1e1;
+            color: #8b0000;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>💧 HydroSense</h1>
+
+    <button
+        class="back"
+        onclick="goBack()">
+
+        ← Dashboard
+
+    </button>
+
+</div>
+
+
+<div class="container">
+
+    <div class="box">
+
+        <h2>⚙️ RO Service & Maintenance</h2>
+
+        <p>
+            Record RO unit service and maintenance
+            information.
+        </p>
+
+
+        <div class="field">
+
+            <label>
+                RO Unit Name
+            </label>
+
+            <input
+                type="text"
+                id="unitName"
+                placeholder="Example: Community RO Plant"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Location
+            </label>
+
+            <input
+                type="text"
+                id="location"
+                placeholder="Example: Panchayat Building"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Service Date
+            </label>
+
+            <input
+                type="date"
+                id="serviceDate"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Service Type
+            </label>
+
+            <select id="serviceType">
+
+                <option value="">
+                    Select Service Type
+                </option>
+
+                <option>
+                    Routine Maintenance
+                </option>
+
+                <option>
+                    Filter Replacement
+                </option>
+
+                <option>
+                    Membrane Replacement
+                </option>
+
+                <option>
+                    Cleaning
+                </option>
+
+                <option>
+                    Repair
+                </option>
+
+                <option>
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Next Service Date
+            </label>
+
+            <input
+                type="date"
+                id="nextServiceDate"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Technician Name
+            </label>
+
+            <input
+                type="text"
+                id="technician"
+                placeholder="Enter technician name"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Additional Notes
+            </label>
+
+            <textarea
+                id="notes"
+                placeholder="Enter service details..."
+            ></textarea>
+
+        </div>
+
+
+        <button
+            class="save-button"
+            onclick="saveService()">
+
+            💾 Save Service Record
+
+        </button>
+
+
+        <div id="message"></div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+function saveService() {
+
+
+    let unitName =
+        document.getElementById(
+            "unitName"
+        ).value.trim();
+
+
+    let location =
+        document.getElementById(
+            "location"
+        ).value.trim();
+
+
+    let serviceDate =
+        document.getElementById(
+            "serviceDate"
+        ).value;
+
+
+    let serviceType =
+        document.getElementById(
+            "serviceType"
+        ).value;
+
+
+    let nextServiceDate =
+        document.getElementById(
+            "nextServiceDate"
+        ).value;
+
+
+    let technician =
+        document.getElementById(
+            "technician"
+        ).value.trim();
+
+
+    let notes =
+        document.getElementById(
+            "notes"
+        ).value.trim();
+
+
+    let message =
+        document.getElementById(
+            "message"
+        );
+
+
+    // Check required fields
+
+    if (
+        unitName === "" ||
+        location === "" ||
+        serviceDate === "" ||
+        serviceType === "" ||
+        nextServiceDate === ""
+    ) {
+
+        message.style.display = "block";
+
+        message.className = "error";
+
+        message.innerHTML =
+            "❌ Please fill all required fields.";
+
+        return;
+
+    }
+
+
+    // Create service record
+
+    let serviceRecord = {
+
+        unitName: unitName,
+
+        location: location,
+
+        serviceDate: serviceDate,
+
+        serviceType: serviceType,
+
+        nextServiceDate: nextServiceDate,
+
+        technician: technician,
+
+        notes: notes
+
+    };
+
+
+    // Get previous records
+
+    let serviceHistory =
+        JSON.parse(
+            localStorage.getItem(
+                "roServices"
+            )
+        ) || [];
+
+
+    // Add new record
+
+    serviceHistory.push(
+        serviceRecord
+    );
+
+
+    // Save records
+
+    localStorage.setItem(
+
+        "roServices",
+
+        JSON.stringify(
+            serviceHistory
+        )
+
+    );
+
+
+    // Show success message
+
+    message.style.display = "block";
+
+    message.className = "success";
+
+    message.innerHTML =
+        "✅ RO service record saved successfully!";
+
+
+    // Clear form
+
+    document.getElementById(
+        "unitName"
+    ).value = "";
+
+    document.getElementById(
+        "location"
+    ).value = "";
+
+    document.getElementById(
+        "serviceDate"
+    ).value = "";
+
+    document.getElementById(

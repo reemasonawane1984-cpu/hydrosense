@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>HydroSense - Panchayat Login</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2fbfd;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            min-height: 100vh;
+        }
+
+        .login-box {
+            background: white;
+
+            width: 350px;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow:
+            0 4px 15px rgba(0,0,0,0.12);
+
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 45px;
+        }
+
+        h1 {
+            color: #087f8c;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            color: #444;
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+
+            text-align: left;
+
+            margin-top: 15px;
+
+            font-weight: bold;
+
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 12px;
+
+            margin-top: 7px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            box-sizing: border-box;
+
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 12px;
+
+            margin-top: 25px;
+
+            background: #087f8c;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #066b75;
+        }
+
+        #message {
+            margin-top: 15px;
+
+            font-weight: bold;
+        }
+
+        .back {
+            background: white;
+
+            color: #087f8c;
+
+            border: 1px solid #087f8c;
+
+            margin-top: 12px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-box">
+
+
+    <div class="logo">
+        💧
+    </div>
+
+
+    <h1>
+        HydroSense
+    </h1>
+
+
+    <h2>
+        🏛️ Panchayat Login
+    </h2>
+
+
+    <label>
+        Panchayat Username
+    </label>
+
+    <input
+        type="text"
+        id="username"
+        placeholder="Enter Panchayat Username">
+
+
+    <label>
+        Password
+    </label>
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Enter Password">
+
+
+    <button onclick="panchayatLogin()">
+
+        Login to Panchayat Dashboard
+
+    </button>
+
+
+    <p id="message"></p>
+
+
+    <button
+        class="back"
+        onclick="goBack()">
+
+        ← Back to User Login
+
+    </button>
+
+
+</div>
+
+
+<script>
+
+
+function panchayatLogin() {
+
+
+    let username =
+        document.getElementById(
+            "username"
+        ).value;
+
+    let password =
+        document.getElementById(
+            "password"
+        ).value;
+
+
+    // Official demo Panchayat credentials
+
+    let correctUsername =
+        "Navi Gram Panchayat";
+
+    let correctPassword =
+        "@Navi 234";
+
+
+    let message =
+        document.getElementById(
+            "message"
+        );
+
+
+    if (
+        username === correctUsername &&
+        password === correctPassword
+    ) {
+
+        // Create Panchayat login session
+
+        localStorage.setItem(
+            "panchayatLoggedIn",
+            "true"
+        );
+
+
+        message.style.color =
+            "green";
+
+        message.innerHTML =
+            "Login successful!";
+
+
+        setTimeout(function() {
+
+            window.location.href =
+                "panchayat.html";
+
+        }, 500);
+
+    }
+
+    else {
+
+        message.style.color =
+            "red";
+
+        message.innerHTML =
+            "Invalid Panchayat username or password.";
+
+    }
+
+}
+
+
+// Back button
+
+function goBack() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

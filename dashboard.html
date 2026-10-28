@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>HydroSense - Dashboard</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2fbfd;
+        }
+
+        /* Header */
+
+        .header {
+            background: #087f8c;
+            color: white;
+
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .logout {
+            background: white;
+            color: #087f8c;
+
+            border: none;
+            padding: 9px 15px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+        }
+
+
+        /* Main area */
+
+        .container {
+            padding: 30px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            color: #087f8c;
+        }
+
+
+        /* Cards */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+            repeat(auto-fit, minmax(200px, 1fr));
+
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+
+            text-align: center;
+        }
+
+        .card .icon {
+            font-size: 35px;
+        }
+
+        .card h3 {
+            color: #087f8c;
+        }
+
+        .card button {
+            background: #087f8c;
+
+            color: white;
+
+            border: none;
+
+            padding: 10px 18px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background: #05636d;
+        }
+
+
+        /* Water Quality */
+
+        .quality {
+            margin-top: 30px;
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        .quality h2 {
+            color: #087f8c;
+        }
+
+        .status {
+            font-size: 20px;
+
+            font-weight: bold;
+
+            color: green;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- Header -->
+
+<div class="header">
+
+    <h1>💧 HydroSense</h1>
+
+    <button class="logout"
+            onclick="logout()">
+
+        Logout
+
+    </button>
+
+</div>
+
+
+<!-- Main Content -->
+
+<div class="container">
+
+
+    <div class="welcome">
+
+        <h2 id="welcomeMessage">
+            Welcome!
+        </h2>
+
+        <p>
+            Water Quality Testing and Reporting System
+        </p>
+
+    </div>
+
+
+    <!-- Main Cards -->
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <div class="icon">🧪</div>
+
+            <h3>Water Quality Test</h3>
+
+            <p>
+                Test and record water quality parameters.
+            </p>
+
+            <button onclick="openPage('water-test.html')">
+
+                Test Water
+
+            </button>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="icon">🚰</div>
+
+            <h3>Water Intake</h3>
+
+            <p>
+                Record water intake information.
+            </p>
+
+            <button onclick="openPage('intake.html')">
+
+                View Intake
+
+            </button>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="icon">⚙️</div>
+
+            <h3>RO Service</h3>
+
+            <p>
+                Check RO service and maintenance.
+            </p>
+
+            <button onclick="openPage('ro-service.html')">
+
+                RO Service
+
+            </button>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="icon">📢</div>
+
+            <h3>Complaints</h3>
+
+            <p>
+                Report water-related problems.
+            </p>
+
+            <button onclick="openPage('complaints.html')">
+
+                Report Problem
+
+            </button>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="icon">📚</div>
+
+            <h3>Resources</h3>
+
+            <p>
+                Learn about water quality and safety.
+            </p>
+
+            <button onclick="openPage('resources.html')">
+
+                View Resources
+
+            </button>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="icon">📊</div>
+
+            <h3>Test History</h3>
+
+            <p>
+                View previous water quality reports.
+            </p>
+
+            <button onclick="openPage('history.html')">
+
+                View History
+
+            </button>
+
+        </div>
+
+        
+
+
+
+    </div>
+
+
+    <!-- Water Quality Status -->
+
+    <div class="quality">
+
+        <h2>💧 Water Quality Status</h2>
+
+        <p>
+            Current Status:
+        </p>
+
+        <p class="status">
+            No Test Available
+        </p>
+
+        <p>
+            Perform a water quality test to
+            see the latest result.
+        </p>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+// Check whether user is logged in
+
+let loggedIn =
+    localStorage.getItem("loggedIn");
+
+
+if (loggedIn !== "true") {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+// Display user's name
+
+let savedUser =
+    JSON.parse(
+        localStorage.getItem("hydrosenseUser")
+    );
+
+
+if (savedUser) {
+
+    document.getElementById(
+        "welcomeMessage"
+    ).innerHTML =
+        "Welcome, " + savedUser.name + "! 👋";
+
+}
+
+
+// Open another page
+
+function openPage(page) {
+
+    window.location.href = page;
+
+}
+
+
+// Logout function
+
+function logout() {
+
+    localStorage.removeItem(
+        "loggedIn"
+    );
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

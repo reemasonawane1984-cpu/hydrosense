@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>HydroSense - Create Account</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #dff6ff, white);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            height: 100vh;
+        }
+
+        .box {
+            width: 350px;
+            background: white;
+
+            padding: 30px;
+            border-radius: 15px;
+
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+
+            text-align: center;
+        }
+
+        h1 {
+            color: #087f8c;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+
+            margin: 8px;
+
+            border: 1px solid #ccc;
+            border-radius: 8px;
+
+            font-size: 15px;
+        }
+
+        button {
+            width: 96%;
+
+            padding: 12px;
+            margin-top: 10px;
+
+            background: #087f8c;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 16px;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        a {
+            color: #087f8c;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+    <h1>💧 Create Account</h1>
+
+    <p>Join HydroSense</p>
+
+    <input
+        type="text"
+        id="name"
+        placeholder="Enter your name"
+    >
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Create 4-digit password"
+        maxlength="4"
+        inputmode="numeric"
+    >
+
+    <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm password"
+        maxlength="4"
+        inputmode="numeric"
+    >
+
+    <button onclick="createAccount()">
+        Create Account
+    </button>
+
+    <div id="message"></div>
+
+    <p>
+        Already have an account?
+        <a href="index.html">Login</a>
+    </p>
+
+</div>
+
+<script>
+
+function createAccount() {
+
+    let name =
+        document.getElementById("name").value.trim();
+
+    let password =
+        document.getElementById("password").value.trim();
+
+    let confirmPassword =
+        document.getElementById("confirmPassword").value.trim();
+
+    let message =
+        document.getElementById("message");
+
+
+    // Check name
+    if (!/^[A-Za-z ]+$/.test(name)) {
+
+        message.innerHTML =
+            "❌ Name should contain letters only.";
+
+        return;
+    }
+
+
+    // Check password
+    if (!/^[0-9]{4}$/.test(password)) {
+
+        message.innerHTML =
+            "❌ Password must contain exactly 4 digits.";
+
+        return;
+    }
+
+
+    // Check confirmation
+    if (password !== confirmPassword) {
+
+        message.innerHTML =
+            "❌ Passwords do not match.";
+
+        return;
+    }
+
+
+    // Save account
+    let user = {
+
+        name: name,
+
+        password: password,
+
+        firstLogin: true
+
+    };
+
+
+    localStorage.setItem(
+        "hydrosenseUser",
+        JSON.stringify(user)
+    );
+
+
+    message.innerHTML =
+        "✅ Account created successfully!";
+
+
+    setTimeout(function() {
+
+        window.location.href = "index.html";
+
+    }, 1200);
+
+}
+
+</script>
+
+</body>
+</html>

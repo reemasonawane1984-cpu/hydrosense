@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>HydroSense - Test History</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2fbfd;
+        }
+
+        .header {
+            background: #087f8c;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        button {
+            background: white;
+            color: #087f8c;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+
+            overflow-x: auto;
+        }
+
+        h2 {
+            color: #087f8c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #087f8c;
+            color: white;
+        }
+
+        .good {
+            color: green;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #b06b00;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>💧 HydroSense</h1>
+
+    <button onclick="goBack()">
+        ← Dashboard
+    </button>
+
+</div>
+
+
+<div class="container">
+
+    <div class="box">
+
+        <h2>📊 Water Test History</h2>
+
+        <p>
+            Previous water-quality test records
+        </p>
+
+        <div id="historyContainer">
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+function displayHistory() {
+
+    let history =
+        JSON.parse(
+            localStorage.getItem("waterTests")
+        ) || [];
+
+
+    let container =
+        document.getElementById(
+            "historyContainer"
+        );
+
+
+    if (history.length === 0) {
+
+        container.innerHTML =
+            "<div class='empty'>" +
+            "No water tests have been recorded yet." +
+            "<br><br>" +
+            "Perform your first water quality test." +
+            "</div>";
+
+        return;
+    }
+
+
+    let table =
+
+        "<table>" +
+
+        "<tr>" +
+
+        "<th>Date</th>" +
+
+        "<th>pH</th>" +
+
+        "<th>TDS</th>" +
+
+        "<th>Turbidity</th>" +
+
+        "<th>Temperature</th>" +
+
+        "<th>Status</th>" +
+
+        "</tr>";
+
+
+    history.reverse().forEach(function(test) {
+
+        let statusClass =
+            test.status === "Good"
+            ? "good"
+            : "warning";
+
+
+        table +=
+
+            "<tr>" +
+
+            "<td>" +
+            test.date +
+            "</td>" +
+
+            "<td>" +
+            test.ph +
+            "</td>" +
+
+            "<td>" +
+            test.tds +
+            " mg/L</td>" +
+
+            "<td>" +
+            test.turbidity +
+            " NTU</td>" +
+
+            "<td>" +
+            test.temperature +
+            " °C</td>" +
+
+            "<td class='" +
+            statusClass +
+            "'>" +
+            test.status +
+            "</td>" +
+
+            "</tr>";
+
+    });
+
+
+    table += "</table>";
+
+
+    container.innerHTML = table;
+
+}
+
+
+function goBack() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+displayHistory();
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>HydroSense - Resources</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2fbfd;
+        }
+
+        .header {
+            background: #087f8c;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .back {
+            background: white;
+            color: #087f8c;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .intro {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        h2 {
+            color: #087f8c;
+        }
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+            repeat(auto-fit, minmax(250px, 1fr));
+
+            gap: 20px;
+
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        .icon {
+            font-size: 35px;
+        }
+
+        .card h3 {
+            color: #087f8c;
+        }
+
+        .card li {
+            margin-bottom: 10px;
+        }
+
+        .note {
+            margin-top: 25px;
+            padding: 18px;
+
+            background: #fff4d6;
+
+            border-radius: 10px;
+
+            color: #795900;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>💧 HydroSense</h1>
+
+    <button
+        class="back"
+        onclick="goBack()">
+
+        ← Dashboard
+
+    </button>
+
+</div>
+
+
+<div class="container">
+
+
+    <div class="intro">
+
+        <h2>📚 Water Safety Resources</h2>
+
+        <p>
+            Learn simple practices that can help
+            communities monitor and manage water
+            quality.
+        </p>
+
+    </div>
+
+
+    <div class="cards">
+
+
+        <!-- Card 1 -->
+
+        <div class="card">
+
+            <div class="icon">
+                🧪
+            </div>
+
+            <h3>Water Quality Testing</h3>
+
+            <ul>
+
+                <li>
+                    Check important water-quality
+                    parameters regularly.
+                </li>
+
+                <li>
+                    Record test results for future
+                    comparison.
+                </li>
+
+                <li>
+                    Report unusual water-quality
+                    conditions.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- Card 2 -->
+
+        <div class="card">
+
+            <div class="icon">
+                🚰
+            </div>
+
+            <h3>Safe Water Storage</h3>
+
+            <ul>
+
+                <li>
+                    Keep water storage containers
+                    clean.
+                </li>
+
+                <li>
+                    Keep containers covered.
+                </li>
+
+                <li>
+                    Use clean utensils when
+                    handling stored water.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- Card 3 -->
+
+        <div class="card">
+
+            <div class="icon">
+                🧼
+            </div>
+
+            <h3>Water Hygiene</h3>
+
+            <ul>
+
+                <li>
+                    Keep hands and utensils clean.
+                </li>
+
+                <li>
+                    Avoid contaminating stored
+                    drinking water.
+                </li>
+
+                <li>
+                    Maintain cleanliness around
+                    water sources.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- Card 4 -->
+
+        <div class="card">
+
+            <div class="icon">
+                ⚙️
+            </div>
+
+            <h3>RO Maintenance</h3>
+
+            <ul>
+
+                <li>
+                    Maintain RO units regularly.
+                </li>
+
+                <li>
+                    Record service and maintenance
+                    activities.
+                </li>
+
+                <li>
+                    Replace components according
+                    to appropriate maintenance
+                    guidance.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- Card 5 -->
+
+        <div class="card">
+
+            <div class="icon">
+                📢
+            </div>
+
+            <h3>Report Problems</h3>
+
+            <ul>
+
+                <li>
+                    Report unusual taste, smell,
+                    colour, or other concerns.
+                </li>
+
+                <li>
+                    Mention the location of the
+                    problem.
+                </li>
+
+                <li>
+                    Provide a clear description
+                    when submitting a complaint.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- Card 6 -->
+
+        <div class="card">
+
+            <div class="icon">
+                📊
+            </div>
+
+            <h3>Keep Records</h3>
+
+            <ul>
+
+                <li>
+                    Keep previous water test
+                    results.
+                </li>
+
+                <li>
+                    Compare results over time.
+                </li>
+
+                <li>
+                    Use records to identify
+                    recurring problems.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="note">
+
+        <b>⚠️ Important:</b>
+
+        HydroSense is a prototype for water-quality
+        monitoring and reporting. Its screening results
+        should not be treated as laboratory certification
+        or a substitute for appropriate professional
+        testing.
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+function goBack() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

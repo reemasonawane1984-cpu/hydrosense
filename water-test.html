@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>HydroSense - Water Quality Test</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2fbfd;
+        }
+
+        .header {
+            background: #087f8c;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .back {
+            background: white;
+            color: #087f8c;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        h2 {
+            color: #087f8c;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 95%;
+            padding: 11px;
+
+            border: 1px solid #ccc;
+            border-radius: 7px;
+
+            font-size: 15px;
+        }
+
+        .unit {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .test-button {
+            width: 100%;
+            padding: 13px;
+
+            background: #087f8c;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .test-button:hover {
+            background: #05636d;
+        }
+
+        #result {
+            margin-top: 25px;
+            padding: 20px;
+
+            border-radius: 10px;
+
+            display: none;
+        }
+
+        .good {
+            background: #e4f7e8;
+            color: #176b2c;
+        }
+
+        .warning {
+            background: #fff4d6;
+            color: #795900;
+        }
+
+        .danger {
+            background: #ffe1e1;
+            color: #8b0000;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>💧 HydroSense</h1>
+
+    <button class="back"
+            onclick="goBack()">
+
+        ← Dashboard
+
+    </button>
+
+</div>
+
+
+<div class="container">
+
+    <div class="box">
+
+        <h2>🧪 Water Quality Test</h2>
+
+        <p>
+            Enter the measured water-quality parameters
+            to generate a basic assessment.
+        </p>
+
+
+        <!-- pH -->
+
+        <div class="field">
+
+            <label>
+                pH
+            </label>
+
+            <input
+                type="number"
+                id="ph"
+                step="0.1"
+                placeholder="Example: 7.2"
+            >
+
+            <span class="unit">
+                Recommended range: 6.5 – 8.5
+            </span>
+
+        </div>
+
+
+        <!-- TDS -->
+
+        <div class="field">
+
+            <label>
+                TDS
+            </label>
+
+            <input
+                type="number"
+                id="tds"
+                placeholder="Example: 250"
+            >
+
+            <span class="unit">
+                Unit: mg/L
+            </span>
+
+        </div>
+
+
+        <!-- Turbidity -->
+
+        <div class="field">
+
+            <label>
+                Turbidity
+            </label>
+
+            <input
+                type="number"
+                id="turbidity"
+                step="0.1"
+                placeholder="Example: 2.0"
+            >
+
+            <span class="unit">
+                Unit: NTU
+            </span>
+
+        </div>
+
+
+        <!-- Temperature -->
+
+        <div class="field">
+
+            <label>
+                Temperature
+            </label>
+
+            <input
+                type="number"
+                id="temperature"
+                step="0.1"
+                placeholder="Example: 25"
+            >
+
+            <span class="unit">
+                Unit: °C
+            </span>
+
+        </div>
+
+
+        <button
+            class="test-button"
+            onclick="checkWater()">
+
+            🔍 Analyze Water Quality
+
+        </button>
+
+
+        <!-- Result -->
+
+        <div id="result">
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+function checkWater() {
+
+    let ph =
+        parseFloat(document.getElementById("ph").value);
+
+    let tds =
+        parseFloat(document.getElementById("tds").value);
+
+    let turbidity =
+        parseFloat(document.getElementById("turbidity").value);
+
+    let temperature =
+        parseFloat(document.getElementById("temperature").value);
+
+    let result =
+        document.getElementById("result");
+
+
+    // Check whether all fields are filled
+
+    if (
+        isNaN(ph) ||
+        isNaN(tds) ||
+        isNaN(turbidity) ||
+        isNaN(temperature)
+    ) {
+
+        result.style.display = "block";
+
+        result.className = "danger";
+
+        result.innerHTML =
+            "❌ Please enter all water-quality values.";
+
+        return;
+    }
+
+
+    // Store problems
+
+    let problems = [];
+
+
+    // Check pH
+
+    if (ph < 6.5 || ph > 8.5) {
+
+        problems.push(
+            "pH is outside the recommended range."
+        );
+
+    }
+
+
+    // Check TDS
+
+    if (tds > 500) {
+
+        problems.push(
+            "TDS is above the selected limit."
+        );
+
+    }
+
+
+    // Check turbidity
+
+    if (turbidity > 5) {
+
+        problems.push(
+            "Turbidity is above the selected limit."
+        );
+
+    }
+
+
+    // Create test record
+
+    let testRecord = {
+
+        ph: ph,
+
+        tds: tds,
+
+        turbidity: turbidity,
+
+        temperature: temperature,
+
+        status:
+            problems.length === 0
+            ? "Good"
+            : "Attention Required",
+
+        date:
+            new Date().toLocaleString()
+
+    };
+
+
+    // Get previous tests
+
+    let history =
+        JSON.parse(
+            localStorage.getItem("waterTests")
+        ) || [];
+
+
+    // Add new test
+
+    history.push(testRecord);
+
+
+    // Save history
+
+    localStorage.setItem(
+        "waterTests",
+        JSON.stringify(history)
+    );
+
+
+    // Display result
+
+    if (problems.length === 0) {
+
+        result.className = "good";
+
+        result.style.display = "block";
+
+        result.innerHTML =
+
+            "<h3>✅ Water Quality: Good</h3>" +
+
+            "<p>All entered parameters are within " +
+            "the basic screening limits.</p>" +
+
+            "<p>✅ Test result saved successfully.</p>";
+
+    }
+
+    else {
+
+        result.className = "warning";
+
+        result.style.display = "block";
+
+        result.innerHTML =
+
+            "<h3>⚠️ Attention Required</h3>" +
+
+            "<p>The following parameters need attention:</p>" +
+
+            "<ul>" +
+
+            problems.map(function(problem) {
+
+                return "<li>" +
+                       problem +
+                       "</li>";
+
+            }).join("") +
+
+            "</ul>" +
+
+            "<p>✅ Test result saved successfully.</p>" +
+
+            "<p><b>Note:</b> This is a basic screening result, " +
+            "not a laboratory certification.</p>";
+
+    }
+
+}
+
+
+function goBack() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+</script>
+</body>
+
+</html>

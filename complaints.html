@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>HydroSense - Complaints</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2fbfd;
+        }
+
+        .header {
+            background: #087f8c;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .back {
+            background: white;
+            color: #087f8c;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        h2 {
+            color: #087f8c;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 95%;
+            padding: 11px;
+
+            border: 1px solid #ccc;
+            border-radius: 7px;
+
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 13px;
+
+            background: #087f8c;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background: #05636d;
+        }
+
+        #message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .success {
+            background: #e4f7e8;
+            color: #176b2c;
+        }
+
+        .error {
+            background: #ffe1e1;
+            color: #8b0000;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>💧 HydroSense</h1>
+
+    <button
+        class="back"
+        onclick="goBack()">
+
+        ← Dashboard
+
+    </button>
+
+</div>
+
+
+<div class="container">
+
+    <div class="box">
+
+        <h2>📢 Report Water Problem</h2>
+
+        <p>
+            Report a water-quality or water-supply
+            related problem.
+        </p>
+
+
+        <!-- Problem Type -->
+
+        <div class="field">
+
+            <label>
+                Problem Type
+            </label>
+
+            <select id="problemType">
+
+                <option value="">
+                    Select Problem
+                </option>
+
+                <option>
+                    Poor Water Quality
+                </option>
+
+                <option>
+                    Bad Smell or Taste
+                </option>
+
+                <option>
+                    Dirty Water
+                </option>
+
+                <option>
+                    Water Supply Issue
+                </option>
+
+                <option>
+                    RO Unit Problem
+                </option>
+
+                <option>
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- Location -->
+
+        <div class="field">
+
+            <label>
+                Location
+            </label>
+
+            <input
+                type="text"
+                id="location"
+                placeholder="Example: Main Village Area"
+            >
+
+        </div>
+
+
+        <!-- Date -->
+
+        <div class="field">
+
+            <label>
+                Date of Problem
+            </label>
+
+            <input
+                type="date"
+                id="date"
+            >
+
+        </div>
+
+
+        <!-- Description -->
+
+        <div class="field">
+
+            <label>
+                Problem Description
+            </label>
+
+            <textarea
+                id="description"
+                placeholder="Describe the water-related problem..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- Priority -->
+
+        <div class="field">
+
+            <label>
+                Priority
+            </label>
+
+            <select id="priority">
+
+                <option value="">
+                    Select Priority
+                </option>
+
+                <option>
+                    Low
+                </option>
+
+                <option>
+                    Medium
+                </option>
+
+                <option>
+                    High
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="submit-button"
+            onclick="submitComplaint()">
+
+            📢 Submit Complaint
+
+        </button>
+
+
+        <div id="message"></div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+function submitComplaint() {
+
+
+    let problemType =
+        document.getElementById(
+            "problemType"
+        ).value;
+
+
+    let location =
+        document.getElementById(
+            "location"
+        ).value.trim();
+
+
+    let date =
+        document.getElementById(
+            "date"
+        ).value;
+
+
+    let description =
+        document.getElementById(
+            "description"
+        ).value.trim();
+
+
+    let priority =
+        document.getElementById(
+            "priority"
+        ).value;
+
+
+    let message =
+        document.getElementById(
+            "message"
+        );
+
+
+    // Check required fields
+
+    if (
+        problemType === "" ||
+        location === "" ||
+        date === "" ||
+        description === "" ||
+        priority === ""
+    ) {
+
+        message.style.display = "block";
+
+        message.className = "error";
+
+        message.innerHTML =
+            "❌ Please fill all required fields.";
+
+        return;
+
+    }
+
+
+    // Create complaint record
+
+    let complaint = {
+
+        problemType: problemType,
+
+        location: location,
+
+        date: date,
+
+        description: description,
+
+        priority: priority,
+
+        status: "Submitted",
+
+        submittedAt:
+            new Date().toLocaleString()
+
+    };
+
+
+    // Get previous complaints
+
+    let complaints =
+        JSON.parse(
+            localStorage.getItem(
+                "complaints"
+            )
+        ) || [];
+
+
+    // Add new complaint
+
+    complaints.push(
+        complaint
+    );
+
+
+    // Save complaints
+
+    localStorage.setItem(
+
+        "complaints",
+
+        JSON.stringify(
+            complaints
+        )
+
+    );
+
+
+    // Show success message
+
+    message.style.display = "block";
+
+    message.className = "success";
+
+    message.innerHTML =
+
+        "✅ Complaint submitted successfully!" +
+
+        "<br><br>" +
+
+        "Status: <b>Submitted</b>";
+
+
+    // Clear form
+
+    document.getElementById(
+        "problemType"
+    ).value = "";
+
+    document.getElementById(
+        "location"
+    ).value = "";
+
+    document.getElementById(
+        "date"
+    ).value = "";
+
+    document.getElementById(
+        "description"
+    ).value = "";
+
+    document.getElementById(
+        "priority"
+    ).value = "";
+
+}
+
+
+function goBack() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

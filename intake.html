@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>HydroSense - Water Intake</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2fbfd;
+        }
+
+        .header {
+            background: #087f8c;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .back {
+            background: white;
+            color: #087f8c;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+            0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        h2 {
+            color: #087f8c;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+
+            width: 95%;
+
+            padding: 11px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .save-button {
+
+            width: 100%;
+
+            padding: 13px;
+
+            background: #087f8c;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        .save-button:hover {
+            background: #05636d;
+        }
+
+        #message {
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            display: none;
+
+        }
+
+        .success {
+
+            background: #e4f7e8;
+
+            color: #176b2c;
+
+        }
+
+        .error {
+
+            background: #ffe1e1;
+
+            color: #8b0000;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>💧 HydroSense</h1>
+
+    <button
+        class="back"
+        onclick="goBack()">
+
+        ← Dashboard
+
+    </button>
+
+</div>
+
+
+<div class="container">
+
+    <div class="box">
+
+        <h2>🚰 Water Intake / Source Details</h2>
+
+        <p>
+            Enter information about the water source
+            being tested or monitored.
+        </p>
+
+
+        <!-- Source Name -->
+
+        <div class="field">
+
+            <label>
+                Source Name
+            </label>
+
+            <input
+                type="text"
+                id="sourceName"
+                placeholder="Example: Village Well"
+            >
+
+        </div>
+
+
+        <!-- Source Type -->
+
+        <div class="field">
+
+            <label>
+                Water Source Type
+            </label>
+
+            <select id="sourceType">
+
+                <option value="">
+                    Select Source Type
+                </option>
+
+                <option>
+                    Well
+                </option>
+
+                <option>
+                    Borewell
+                </option>
+
+                <option>
+                    River
+                </option>
+
+                <option>
+                    Lake
+                </option>
+
+                <option>
+                    Municipal Supply
+                </option>
+
+                <option>
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- Location -->
+
+        <div class="field">
+
+            <label>
+                Location
+            </label>
+
+            <input
+                type="text"
+                id="location"
+                placeholder="Example: Main Village Area"
+            >
+
+        </div>
+
+
+        <!-- Quantity -->
+
+        <div class="field">
+
+            <label>
+                Daily Water Quantity
+            </label>
+
+            <input
+                type="number"
+                id="quantity"
+                placeholder="Example: 5000"
+                min="0"
+            >
+
+            <small>
+                Unit: Litres per day
+            </small>
+
+        </div>
+
+
+        <!-- Date -->
+
+        <div class="field">
+
+            <label>
+                Date
+            </label>
+
+            <input
+                type="date"
+                id="date"
+            >
+
+        </div>
+
+
+        <!-- Notes -->
+
+        <div class="field">
+
+            <label>
+                Additional Notes
+            </label>
+
+            <textarea
+                id="notes"
+                placeholder="Enter any additional information..."
+            ></textarea>
+
+        </div>
+
+
+        <button
+            class="save-button"
+            onclick="saveIntake()">
+
+            💾 Save Water Source
+
+        </button>
+
+
+        <div id="message"></div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+function saveIntake() {
+
+
+    let sourceName =
+        document.getElementById(
+            "sourceName"
+        ).value.trim();
+
+
+    let sourceType =
+        document.getElementById(
+            "sourceType"
+        ).value;
+
+
+    let location =
+        document.getElementById(
+            "location"
+        ).value.trim();
+
+
+    let quantity =
+        document.getElementById(
+            "quantity"
+        ).value;
+
+
+    let date =
+        document.getElementById(
+            "date"
+        ).value;
+
+
+    let notes =
+        document.getElementById(
+            "notes"
+        ).value.trim();
+
+
+    let message =
+        document.getElementById(
+            "message"
+        );
+
+
+    // Check required fields
+
+    if (
+        sourceName === "" ||
+        sourceType === "" ||
+        location === "" ||
+        quantity === "" ||
+        date === ""
+    ) {
+
+        message.style.display = "block";
+
+        message.className = "error";
+
+        message.innerHTML =
+            "❌ Please fill all required fields.";
+
+        return;
+
+    }
+
+
+    // Create water source record
+
+    let intakeRecord = {
+
+        sourceName: sourceName,
+
+        sourceType: sourceType,
+
+        location: location,
+
+        quantity: quantity,
+
+        date: date,
+
+        notes: notes
+
+    };
+
+
+    // Get previous records
+
+    let intakeHistory =
+        JSON.parse(
+            localStorage.getItem(
+                "waterIntake"
+            )
+        ) || [];
+
+
+    // Add new record
+
+    intakeHistory.push(
+        intakeRecord
+    );
+
+
+    // Save records
+
+    localStorage.setItem(
+
+        "waterIntake",
+
+        JSON.stringify(
+            intakeHistory
+        )
+
+    );
+
+
+    // Show success message
+
+    message.style.display = "block";
+
+    message.className = "success";
+
+    message.innerHTML =
+        "✅ Water source information saved successfully!";
+
+
+    // Clear form
+
+    document.getElementById(
+        "sourceName"
+    ).value = "";
+
+    document.getElementById(
+        "sourceType"
+    ).value = "";
+
+    document.getElementById(
+        "location"
+    ).value = "";
+
+    document.getElementById(
+        "quantity"
+    ).value = "";
+
+    document.getElementById(
+        "date"
+    ).value = "";
+
+    document.getElementById(
+        "notes"
+    ).value = "";
+
+}
+
+
+function goBack() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+</script>
+
+
+</body>
+
+</html>
